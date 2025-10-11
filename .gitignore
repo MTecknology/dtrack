@@ -1,0 +1,7 @@
+# Makefile
+dtrack
+#docs/_build
+
+# dtrack
+/config.json
+/_workspace
