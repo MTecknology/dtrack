@@ -27,6 +27,7 @@ var Runtime Application_Configuration
 // Defaults set in load_config()
 type Application_Configuration struct {
 	Workspace              string   `json:"workspace"`
+	Workspace_Keep_Temp    bool     `json:"workspace_keep_temp"`
 	Record_Audio_Device    string   `json:"record_audio_device"`
 	Record_Audio_Options   []string `json:"record_audio_options"`
 	Record_Video_Device    string   `json:"record_video_device"`
@@ -46,6 +47,7 @@ type Application_Configuration struct {
 // Map environment variables to Runtime
 var Environment_Configation_Map = map[string]string{
 	"DTRACK_WORKSPACE":              "Workspace",
+	"DTRACK_WORKSPACE_KEEP_TEMP":    "Workspace_Keep_Temp",
 	"DTRACK_RECORD_AUDIO_DEVICE":    "Record_Audio_Device",
 	"DTRACK_RECORD_AUDIO_OPTIONS":   "Record_Audio_Options",
 	"DTRACK_RECORD_VIDEO_DEVICE":    "Record_Video_Device",
@@ -67,6 +69,7 @@ func Show_Help() {
 	fmt.Println("  Config.JSON Key\t\tEnvironment Variable\t\tDefault Value")
 	fmt.Println("  ---------------\t\t--------------------\t\t-------------")
 	fmt.Println("  workspace\t\t\tDTRACK_WORKSPACE\t\t_workspace")
+	fmt.Println("  workspace_keep_temp\tDTRACK_WORKSPACE_KEEP_TEMP\tfalse")
 	fmt.Println("  record_audio_device\t\tDTRACK_RECORD_AUDIO_DEVICE\tdefault")
 	fmt.Println("  record_audio_options\t\tDTRACK_RECORD_AUDIO_OPTIONS\t[\"-f\", \"alsa\"]")
 	fmt.Println("  record_video_device\t\tDTRACK_RECORD_VIDEO_DEVICE\t/dev/video0")
@@ -94,6 +97,7 @@ func Load_Configuration(config_path string) {
 	// Default configuration values
 	cfg := Application_Configuration{
 		Workspace:            "_workspace",
+		Workspace_Keep_Temp:  false,
 		Record_Audio_Device:  "default",
 		Record_Audio_Options: []string{"-f", "alsa"},
 		Record_Video_Device:  "/dev/video0",

@@ -19,6 +19,9 @@ var (
 	app_config_path = flag.String(
 		"c", "./config.json",
 		"Path to configuration file")
+	app_keep_temp = flag.Bool(
+		"k", false,
+		"Keep temporary files.")
 	app_verbose = flag.Bool(
 		"v", false,
 		"Enable verbose logging.")

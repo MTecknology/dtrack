@@ -42,11 +42,5 @@ func Warn(format string, a ...interface{}) {
 func Die(format string, a ...interface{}) {
 	message := fmt.Sprintf(format, a...)
 	fmt.Fprintln(os.Stderr, "[ERROR]\t", message)
-	Clean_Workspace()
 	os.Exit(1)
-}
-
-// Clean up any partial operations found in workspace
-func Clean_Workspace() {
-	// No-Op
 }

@@ -61,15 +61,20 @@ func open_video(uri fyne.URIReadCloser, err error) {
 	var idList []string
 
 	// Create temporary temporary directory for mkv extraction
-	imageDir, err := os.MkdirTemp("", "dtrack_*")
+	extractDir, err := os.MkdirTemp("", "dtrack_*")
 	if err != nil {
 		reset_broken_environment("Failed to load video!\nError: " + err.Error())
 		return
 	}
-	defer os.RemoveAll(imageDir)
+	if !state.Runtime.Workspace_Keep_Temp {
+		defer os.RemoveAll(extractDir)
+		log.Trace("Unpacking to temporary directory: %s", extractDir)
+	} else {
+		log.Warn("%s will not be removed after extraction", extractDir)
+	}
 
 	// Extract images while reading wav stream
-	args := ffmpeg.Extract_Arguments(mkvpath.Path(), imageDir)
+	args := ffmpeg.Extract_Arguments(mkvpath.Path(), extractDir)
 	go ffmpeg.ReadStdin(args, stdWriter, true)
 	for {
 		// Allocate a buffer for the audio segment
@@ -97,7 +102,7 @@ func open_video(uri fyne.URIReadCloser, err error) {
 	// Load images and wav clips into movie data
 	for i := 0; i < len(mkvData); i++ {
 		// Image
-		imagePath := fmt.Sprintf("%s/%d.png", imageDir, i)
+		imagePath := fmt.Sprintf("%s/%d.png", extractDir, i)
 		log.Trace("Loading image: %s", imagePath)
 		fh, err := os.Open(imagePath)
 		if err != nil {
@@ -110,7 +115,7 @@ func open_video(uri fyne.URIReadCloser, err error) {
 		fh.Close()
 
 		// Audio
-		audioPath := fmt.Sprintf("%s/%d.wav", imageDir, i)
+		audioPath := fmt.Sprintf("%s/%d.wav", extractDir, i)
 		log.Trace("Loading audio: %s", audioPath)
 		content, err := os.ReadFile(audioPath)
 		if err != nil {

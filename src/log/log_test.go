@@ -139,7 +139,3 @@ func TestDie(t *testing.T) {
 		t.Errorf("Die failed to print critical message to stderr.\nGot output: %q\nWant substring: %q", stderr.String(), expectedStderr)
 	}
 }
-
-func TestClean_Workspace(t *testing.T) {
-	// No-Op
-}
