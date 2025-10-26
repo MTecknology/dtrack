@@ -3,7 +3,7 @@
   "workspace": "./_workspace",
   "record_audio_device": "default",
   "record_video_device": "/dev/video0",
-  "record_video_options": ["-f", "v4l2", "-video_size", "1280x720", "-framerate", "5"],
+  "record_video_options": ["-f", "v4l2", "-framerate", "15"],
   "record_duration": "00:10:00",
   "record_inspect_models": ["barking", "horn"],
   "train_target": 0.95,

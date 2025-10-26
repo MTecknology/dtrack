@@ -37,7 +37,6 @@ type Application_Configuration struct {
 	Has_Models             bool
 	Record_Inspect_Backlog int     `json:"record_inspect_backlog"`
 	Record_Duration        string  `json:"record_duration"`
-	Record_Compression     string  `json:"record_compression"`
 	Train_Target           float64 `json:"train_target"`
 	Train_Rate             float64 `json:"train_rate"`
 	Train_Momentum         float64 `json:"train_momentum"`
@@ -56,7 +55,6 @@ var Environment_Configation_Map = map[string]string{
 	"DTRACK_RECORD_INSPECT_MODELS":  "Record_Inspect_Models",
 	"DTRACK_RECORD_INSPECT_BACKLOG": "Record_Inspect_Backlog",
 	"DTRACK_RECORD_DURATION":        "Record_Duration",
-	"DTRACK_RECORD_COMPRESS":        "Record_Compression",
 	"DTRACK_TRAIN_TARGET":           "Train_Target",
 	"DTRACK_TRAIN_RATE":             "Train_Rate",
 	"DTRACK_TRAIN_MOMENTUM":         "Train_Momentum",
@@ -70,17 +68,13 @@ func Show_Help() {
 	fmt.Println("  ---------------\t\t--------------------\t\t-------------")
 	fmt.Println("  workspace\t\t\tDTRACK_WORKSPACE\t\t_workspace")
 	fmt.Println("  workspace_keep_temp\tDTRACK_WORKSPACE_KEEP_TEMP\tfalse")
-	fmt.Println("  record_audio_device\t\tDTRACK_RECORD_AUDIO_DEVICE\tdefault")
+	fmt.Println("  record_audio_device\t\tDTRACK_RECORD_AUDIO_DEVICE\tplughw")
 	fmt.Println("  record_audio_options\t\tDTRACK_RECORD_AUDIO_OPTIONS\t[\"-f\", \"alsa\"]")
 	fmt.Println("  record_video_device\t\tDTRACK_RECORD_VIDEO_DEVICE\t/dev/video0")
 	fmt.Print("  record_video_options\t\tDTRACK_RECORD_VIDEO_OPTIONS")
-	fmt.Println("\t[\"-f\", \"v4l2\", \"-video_size\", \"1280x720\", \"-framerate\", \"5\"]")
-	fmt.Println("  record_video_advanced\t\tDTRACK_RECORD_VIDEO_ADVANCED\t[\"-filter_complex\",")
-	fmt.Print("       \"[0:v]hflip,vflip,drawtext=fontfile=")
-	fmt.Print("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf:text=")
-	fmt.Println("%{localtime}:fontcolor=red@0.9:x=7:y=7:fontsize=48[dtstamp]\"]")
+	fmt.Println("\t[\"-f\", \"v4l2\", \"-framerate\", \"5\"]")
+	fmt.Println("  record_video_advanced\t\tDTRACK_RECORD_VIDEO_ADVANCED\tSee Documentation")
 	fmt.Println("  record_duration\t\tDTRACK_RECORD_DURATION\t\t00:10:00  (10 minutes)")
-	fmt.Println("  record_compression\t\tDTRACK_RECORD_COMPRESS\t\tultrafast")
 	fmt.Println("  record_inspect_models\t\tDTRACK_RECORD_INSPECT_MODELS\t[]")
 	fmt.Println("  record_inspect_backlog\tDTRACK_RECORD_INSPECT_BACKLOG\t5")
 	fmt.Println("  record_inspect_segment\tDTRACK_RECORD_INSPECT_SEGMENT\t-1")
@@ -98,17 +92,17 @@ func Load_Configuration(config_path string) {
 	cfg := Application_Configuration{
 		Workspace:            "_workspace",
 		Workspace_Keep_Temp:  false,
-		Record_Audio_Device:  "default",
+		Record_Audio_Device:  "plughw",
 		Record_Audio_Options: []string{"-f", "alsa"},
 		Record_Video_Device:  "/dev/video0",
 		Record_Video_Options: []string{
-			"-f", "v4l2", "-video_size", "1280x720", "-framerate", "5"},
+			"-f", "v4l2", "-framerate", "15"},
 		Record_Video_Advanced: []string{
-			"-filter_complex", "[1:v]hflip,vflip,drawtext" +
+			"-crf", "23", "-preset", "fast", "-maxrate", "3M", "-bufsize", "24M",
+			"-tune", "zerolatency", "-filter_complex", "[1:v]drawtext" +
 				"=fontfile=/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf" +
 				":text=%{localtime}:fontcolor=red@0.9:x=7:y=7:fontsize=48[dtstamp]"},
 		Record_Duration:        "00:10:00",
-		Record_Compression:     "ultrafast",
 		Record_Inspect_Models:  []string{},
 		Record_Inspect_Backlog: 5,
 		Train_Target:           0.95,

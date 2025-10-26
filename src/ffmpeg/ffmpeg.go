@@ -126,8 +126,7 @@ func Recorder_Arguments() []string {
 	args = append(args, state.Runtime.Record_Video_Advanced...)
 	args = append(args,
 		"-map", "0:a", "-map", "[dtstamp]", "-c:a", "pcm_s16le",
-		"-ar", "48000", "-ac", "1", "-c:v", "libx264", "-preset",
-		state.Runtime.Record_Compression)
+		"-ar", "48000", "-ac", "1", "-c:v", "libx264")
 
 	log.Debug("Compiled recorder arguments: %s", args)
 	return args
