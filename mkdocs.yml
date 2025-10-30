@@ -1,0 +1,27 @@
+site_name: Disturbance Tracker
+site_description: DTrack uses Machine Learning to accurately identify and log specific noises.
+copyright: "&copy; 2024-2025 Michael Lustfield (MTecknology)"
+repo_url: https://github.com/MTecknology/dtrack
+edit_uri: blob/master/docs/
+theme:
+  name: readthedocs
+  custom_dir: docs/_theme/overrides
+extra_css:
+  - _theme/style/option_list.css
+#extra_javascript:
+nav:
+  - Introduction:
+    - About DTrack: index.md
+    - Hardware Selection: setup/hardware.md
+    - Easy Installation: setup/install.md
+    - Configuration File: setup/configure.md
+    - Configuration Options: setup/options.md
+  - Usage:
+    - General Overview:  usage/overview.md
+    - Collect Recordings: usage/collect.md
+    - Review Clips: usage/review.md
+    - Train a Model: usage/train.md
+    - Inspect Results: usage/inspect.md
+    - Automatic Reports: usage/report.md
+markdown_extensions:
+  - admonition

@@ -1,6 +1,6 @@
 # Makefile
 dtrack
-#docs/_build
+docsite/
 
 # dtrack
 /config.json

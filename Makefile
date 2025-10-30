@@ -13,11 +13,17 @@ dtrack-headless:
 test: dtrack
 	cd ./src && go test ./...
 	cd ./src && go vet ./...
+
+full-test: test
 	cd ./src && go-staticcheck ./...
+
+docsite:
+	mkdocs build -d docsite
+	@echo Open With: sensible-browser $(PWD)/docsite/index.html
 
 clean:
 	podman rmi dtrack_builder 2>/dev/null || true
-	$(RM) dtrack
+	$(RM) -r dtrack docsite
 
 
 ##
@@ -43,4 +49,4 @@ builder:
 		-f .builder
 
 
-.PHONY: test clean builder builder-shell
+.PHONY: test full-test clean builder builder-shell
