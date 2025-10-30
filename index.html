@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Temp - Disturbance Tracker</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Temp";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Disturbance Tracker
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Introduction</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href=".">About DTrack</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="setup/hardware/">Hardware Selection</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="setup/install/">Easy Installation</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="setup/configure/">Configuration File</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="setup/options/">Configuration Options</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Usage</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href=".">Temp</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#how-it-works">How It Works</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-it-exists">Why It Exists</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-is-this-possible">How Is This Possible?</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Disturbance Tracker</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Usage</li>
+      <li class="breadcrumb-item active">Temp</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/MTecknology/dtrack/blob/master/docs/index.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="about-dtrack">About DTrack</h1>
+<p><strong>Disturbance Track (DTrack)</strong> offers 24/7 monitoring that uses Machine
+Learning (AI) to identify disturbing noises, such as dog barking or car alarms.</p>
+<p>Rather than using expensive "cloud" infrastructure for advanced categorization,
+DTrack creates a model that is trained to detect only the exact noise that it
+was trained on. This helps eliminate false positives and decreases the effort
+required to perform matching.</p>
+<h2 id="how-it-works">How It Works</h2>
+<ol>
+<li>Set up the Monitoring Device</li>
+<li>Collect some initial recordings</li>
+<li>Train a model from collected recordings</li>
+<li>Use trained model for automatic detection</li>
+</ol>
+<p><img alt="DTrack Workflow" src="images/workflow.webp" /></p>
+<h2 id="why-it-exists">Why It Exists</h2>
+<p>In some jurisdictions, understaffing leads to complete dismissal of any call
+that is not life threatening. In these cases, even a detailed report of ongoing
+noise disturbances may be entirely dismissed without a full 48 hours of detailed
+(to-the-minute) logging of every single occurrence, alongside submitted video.</p>
+<p>Painstakingly listening to this audio in order to accurately log each and every
+disturbance, unsurprisingly, adds to overall frustration, but it also yields a
+report that is guaranteed to be taken seriously by a District Attorney.</p>
+<p>DTrack exists to provide an initial report that can be easily reviewed in much
+less time.</p>
+<h2 id="how-is-this-possible">How Is This Possible?</h2>
+<p>Most scoffs at this endevour have come from an understanding that large datasets
+are huge and take a tremendous amount of power to work with, making it impossible
+to keep detection entirely within lightweight hardware. This comes from a
+fundamental misunderstanding of what detection is actually needed.</p>
+<p>Consider which of the following questions is easier for a computer to answer:</p>
+<ol>
+<li>Is a banana present in this image?</li>
+<li>Is a <u>whole, pristine, ripe, yellow</u> banana present in this image?</li>
+</ol>
+<p>The former can include <strong>any</strong> type of banana. It could still be green, or
+perhaps yellow but cut in half, or brown and smashed. At what point of decay is
+it no longer a banana? Large data models take all of these questions into
+consideration and then try to apply tags that answer yes or no to each question.</p>
+<p>Disturbance Tracker only cares about the tag that it was trained to detect, which
+eliminates extra overhead and makes detection a very lightweight operation.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="setup/options/" class="btn btn-neutral float-left" title="Configuration Options"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+      <p>&copy; 2024-2025 Michael Lustfield (MTecknology)</p>
+  </div>
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/MTecknology/dtrack" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href="setup/options/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
