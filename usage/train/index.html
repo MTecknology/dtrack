@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../../img/favicon.ico" />
-    <title>Easy Installation - Disturbance Tracker</title>
+    <title>Train a Model - Disturbance Tracker</title>
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,8 +13,8 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Easy Installation";
-        var mkdocs_page_input_path = "setup/install.md";
+        var mkdocs_page_name = "Train a Model";
+        var mkdocs_page_input_path = "usage/train.md";
         var mkdocs_page_url = null;
       </script>
     
@@ -41,33 +41,33 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption"><span class="caption-text">Introduction</span></p>
-              <ul class="current">
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../..">About DTrack</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../hardware/">Hardware Selection</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/hardware/">Hardware Selection</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Easy Installation</a>
-    <ul class="current">
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/install/">Easy Installation</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../configure/">Configuration File</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/configure/">Configuration File</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../options/">Configuration Options</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../../setup/options/">Configuration Options</a>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Usage</span></p>
-              <ul>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/overview/">General Overview</a>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="../overview/">General Overview</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/collect/">Collect Recordings</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../collect/">Collect Recordings</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/review/">Review Clips</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../review/">Review Clips</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/train/">Train a Model</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">Train a Model</a>
+    <ul class="current">
+    </ul>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/inspect/">Inspect Results</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../inspect/">Inspect Results</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../../usage/report/">Automatic Reports</a>
+                  <li class="toctree-l1"><a class="reference internal" href="../report/">Automatic Reports</a>
                   </li>
               </ul>
       </div>
@@ -84,10 +84,10 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="../.." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Introduction</li>
-      <li class="breadcrumb-item active">Easy Installation</li>
+          <li class="breadcrumb-item">Usage</li>
+      <li class="breadcrumb-item active">Train a Model</li>
     <li class="wy-breadcrumbs-aside">
-          <a href="https://github.com/MTecknology/dtrack/blob/master/docs/setup/install.md" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/MTecknology/dtrack/blob/master/docs/usage/train.md" class="icon icon-github"> Edit on GitHub</a>
     </li>
   </ul>
   <hr/>
@@ -95,21 +95,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="installing-dtrack">Installing DTrack</h1>
-<div class="admonition todo">
-<p class="admonition-title">Todo</p>
-<p>This project was originally written in Python. The transition to golang began
-because of performance issues, but became moot after a few magical ffmpeg/x264
-options were discovered. There is a chance that tfgo will not have enough support
-for this project, but we shall see ... holding off on this document until the
-project finally reaches beta.</p>
+                <h1 id="model-training">Model Training</h1>
+<p>Training a model is essentially a continuous loop of making a random model and
+then comparing it's effectiveness to the current best.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a model already exists, it will be used to prime the training routine.</p>
 </div>
+<p>After all testing and training data is prepared, training can be initiated with:</p>
+<pre><code class="language-sh">    python3 -m train.model -M $model -y $tagged_clips -n $NO_MATCH_clips
+</code></pre>
+<p>This will continue until <code>target_accuracy</code> (from <code>config.yml</code>) is met.</p>
+<pre><code class="language-text">    python3 -m train.model -M clap -y _workspace/tagged/clap -n _workspace/tagged/no-match
+    INFO:Training iteration 1
+    INFO:Overall accuracy[1] is 50.0
+    INFO:Accuracy increased; keeping new model
+    INFO:Training iteration 2
+    INFO:Overall accuracy[2] is 50.0
+    INFO:Accuracy worse than #1; discarding new
+    INFO:Training iteration 3
+    [...]
+    INFO:Training iteration 11
+    INFO:Overall accuracy[11] is 84.84848484848484
+    INFO:Accuracy worse than #9; discarding new
+    INFO:Training iteration 12
+    INFO:Overall accuracy[12] is 86.36363636363637
+    INFO:Accuracy increased; keeping new model
+    INFO:TRAINING COMPLETE :: Final Accuracy: 86.36363636363637
+</code></pre>
+<p>The final products of this training process are <code>model.pth</code> and <code>model.wav</code>.
+These two files can be copied into another workspace and then used for
+<a href="../inspect/">content inspection (detection)</a>.</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../hardware/" class="btn btn-neutral float-left" title="Hardware Selection"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../configure/" class="btn btn-neutral float-right" title="Configuration File">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../review/" class="btn btn-neutral float-left" title="Review Clips"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../inspect/" class="btn btn-neutral float-right" title="Inspect Results">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -135,10 +157,10 @@ project finally reaches beta.</p>
         </span>
     
     
-      <span><a href="../hardware/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../review/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
-      <span><a href="../configure/" style="color: #fcfcfc">Next &raquo;</a></span>
+      <span><a href="../inspect/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
