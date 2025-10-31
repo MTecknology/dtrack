@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../_theme/style/option_list.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -51,7 +52,7 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#configjson">config.json</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#defaults">Defaults</a>
+    <li class="toctree-l2"><a class="reference internal" href="#test-driven-defaults">Test-Driven Defaults</a>
     </li>
     </ul>
                   </li>
@@ -88,69 +89,89 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="configuration">Configuration</h1>
+                <h1 id="configuration-file">Configuration File</h1>
 <p>DTrack has defaults that are designed to function adequately on a Raspberry
 Pi 5, although these make very poor monitoring devices. If your <a href="../hardware/">Selected
 Hardware</a> provides a hardware video <strong>en</strong>conder, then it is
 important to modify <strong>record_save_options</strong> (below).</p>
 <h2 id="configjson">config.json</h2>
-<p>Configuration is stored in a <strong>JSON</strong> file, called <strong>config.json</strong>. A sample can
-be copied from <strong>example_config.json</strong>, or a file can be created from any single
-option.</p>
-<p><strong>Important JSON Gotchas:</strong></p>
-<ol>
-<li>Format:</li>
-</ol>
+<p>Configuration is stored in a <strong>JSON</strong> file, called <strong>config.json</strong>.</p>
+<p><strong>Important JSON Tips:</strong></p>
+<p>1. Format:</p>
 <pre><code>{
-  &quot;KEY&quot;: VALUE,
-  &quot;KEY&quot;: VALUE,
-  &quot;KEY&quot;: VALUE
+  &quot;OPTION&quot;: VALUE,
+  &quot;OPTION&quot;: VALUE,
+  &quot;OPTION&quot;: VALUE
 }
 </code></pre>
-<ol>
-<li>
-<p>All <strong>VALUE</strong>s are one of:</p>
+<p>2. All <strong>VALUE</strong>s are one of:</p>
 <ul>
 <li><strong>string</strong>: <code>"anythin inside of quotes"</code></li>
 <li><strong>list</strong>: <code>["like", "a", "string", "broken", "into", "parts"]</code></li>
 <li><strong>number</strong>: <code>5</code> or <code>3.1415</code></li>
 <li><strong>boolean</strong>: <code>true</code> for Yes or <code>false</code> for No</li>
 </ul>
-</li>
-<li>
-<p>Every <strong>VALUE</strong> must have a trailing comma (<code>,</code>), except the last must not.</p>
-</li>
-</ol>
-<h2 id="defaults">Defaults</h2>
-<p>Defaults were selected based on testing with lowest-recommended hardware.</p>
+<p>3. Every <strong>VALUE</strong> must have a trailing comma (<code>,</code>), except the last must not.</p>
+<h2 id="test-driven-defaults">Test-Driven Defaults</h2>
+<p>Defaults were selected based on tests using <a href="../hardware/">lowest-recommended hardware</a>.</p>
+<ul>
+<li><a href="https://trac.ffmpeg.org/wiki/Encode/H.264">Encoder Documentation</a> (Upstream Defaults)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-t &lt;time&gt;</code></td>
+<td>Must be set on <strong>each</strong> input device</td>
+</tr>
+<tr>
+<td><code>-tune zerolatency</code></td>
+<td>This is <strong>required</strong> for software encoding on low-end cpu</td>
+</tr>
+<tr>
+<td><code>-bufsize 64M</code></td>
+<td>Very large buffer to helps avoid processing spikes</td>
+</tr>
+<tr>
+<td><code>-crf 23</code></td>
+<td>Default is best; 25 reduces size by 30%, but 24 creates movement</td>
+</tr>
+<tr>
+<td><code>-maxrate 3M</code></td>
+<td>Hard quality limit, based on <strong>NO hardware encoding</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>* 1080p recordings will see quality improvement up to about <code>7M</code></td>
+</tr>
+<tr>
+<td></td>
+<td>* Larger value creates larger files and XBUF for CPU-only encoding</td>
+</tr>
+<tr>
+<td><code>-preset fast</code></td>
+<td>Yield fewest XRUN errors</td>
+</tr>
+<tr>
+<td><code>-framerate 15</code></td>
+<td>Fast enough to catch most movement</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Baseline Command:</strong></p>
 <pre><code>ffmpeg -y -loglevel warning -nostdin -nostats \
     -t 00:10:00 -f alsa -i plughw \
     -t 00:10:00 -f v4l2 -i /dev/video0 \
     -map 0:a -c:a pcm_s16le -ar 48000 -ac 1 -f wav - \
     -filter_complex [1:v]...[dtstamp] -map 0:a -map [dtstamp] \
-    -c:a pcm_s16le -ar 48000 -ac 1 -c:v libx264 -tune zerolatency baseline.mkv \
+    -c:a pcm_s16le -ar 48000 -ac 1 -c:v libx264 baseline.mkv \
     &gt;/dev/null
 </code></pre>
-<p><strong>Test-Driven Defaults:</strong></p>
-<ul>
-<li><code>Encoder Documentation &lt;https://trac.ffmpeg.org/wiki/Encode/H.264&gt;</code>__</li>
-<li><code>-t &lt;time&gt;</code> <strong>must</strong> be set prior to each input</li>
-<li><code>-tune zerolatency</code> is <strong>required</strong> for software encoding on low-end cpu</li>
-<li><code>-bufsize 64M</code>: Very large buffer to helps avoid processing spikes</li>
-<li><code>-crf 23</code>: Default is best; 25 reduces size by 30%, but 24 creates movement</li>
-<li>
-<p><code>-maxrate 3M</code>: Hard quality limit, based on <strong>NO hardware encoding</strong></p>
-<ul>
-<li>1080p recordings will see quality improvement up to about <code>7M</code></li>
-<li>Larger value creates larger files and XBUF for CPU-only encoding</li>
-</ul>
-</li>
-<li>
-<p><code>-preset fast</code>: Yield fewest XRUN errors</p>
-</li>
-<li><code>-framerate 15</code>: Fast enough to catch most movement</li>
-</ul>
               
             </div>
           </div><footer>

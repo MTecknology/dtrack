@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../css/theme.css" />
     <link rel="stylesheet" href="../../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../../_theme/style/option_list.css" rel="stylesheet" />
     
       <script>
         // Current page data
@@ -51,11 +52,35 @@
                   </li>
                   <li class="toctree-l1 current"><a class="reference internal current" href="./">Configuration Options</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#workspace">workspace</a>
+    <li class="toctree-l2"><a class="reference internal" href="#workspace">Workspace</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#workspace_keep_temp">workspace_keep_temp</a>
+    <li class="toctree-l2"><a class="reference internal" href="#workspace-keep-temp">Workspace Keep Temp</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#old">OLD</a>
+    <li class="toctree-l2"><a class="reference internal" href="#record-audio-device">Record Audio Device</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-audio-options">Record Audio Options</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-video-device">Record Video Device</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-video-options">Record Video Options</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-video-timestamp">Record Video Timestamp</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-video-advanced">Record Video Advanced</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-inspect-models">Record Inspect Models</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-inspect-backlog">Record Inspect Backlog</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#record-duration">Record Duration</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#train-target">Train Target</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#train-rate">Train Rate</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#train-momentum">Train Momentum</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#train-dropout">Train Dropout</a>
     </li>
     </ul>
                   </li>
@@ -91,60 +116,83 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="configuration-options">Configuration Options</h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
 <p>Visit the <a href="../configure/">Configuration File</a> section for information about
 how to use these configuration options.</p>
-</div>
-<h2 id="workspace">workspace</h2>
-<p>Location where audio and video data is stored.</p>
+<h2 id="workspace">Workspace</h2>
+<blockquote>
+<p>This is the location where DTrack stores data. This includes saved recordings,
+audio clips, trained models, temporary data, etc.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>"_workspace/"</code></p>
 <table>
 <thead>
 <tr>
-<th style="text-align: left;">Option Name</th>
-<th style="text-align: left;">Description</th>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><strong><code>foo</code></strong></td>
-<td style="text-align: left;">Fuz</td>
-</tr>
-<tr>
-<td style="text-align: left;"><strong><code>bar</code></strong></td>
-<td style="text-align: left;">Buz</td>
+<td>string</td>
+<td>workspace</td>
+<td>DTRACK_WORKSPACE</td>
 </tr>
 </tbody>
 </table>
+</div>
+</blockquote>
+<h2 id="workspace-keep-temp">Workspace Keep Temp</h2>
+<blockquote>
+<p>Keep temporary data after extracted for review.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>false</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>boolean</td>
+<td>keep_temp</td>
+<td>DTRACK_KEEP_TEMP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-audio-device">Record Audio Device</h2>
+<blockquote>
+<p>The device identifier used to record audio.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>"plughw"</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>audio_device</td>
+<td>RECORD_AUDIO_DEVICE</td>
+</tr>
+</tbody>
+</table>
+</div>
 <ul>
-<li><strong>Section:</strong> Recording</li>
-<li><strong>Variable:</strong> workspace</li>
-<li><strong>Environment:</strong> DTRACK_WORKSPACE</li>
-<li><strong>Default:</strong> _workspace</li>
-</ul>
-<h2 id="workspace_keep_temp">workspace_keep_temp</h2>
-<p>Keep temporary review data once extracted.</p>
-<pre><code>Section     Recording
-Variable    workspace_keep_temp
-Environment DTRACK_WORKSPACE\_KEEP\_TEMP
-Default     false
-</code></pre>
-<h2 id="old">OLD</h2>
-<p>Many of the <strong>record_</strong> configuration options become part of a very large ffmpeg
-command and are broken up to help make sure everything goes into the right place.</p>
+<li>
+<p><strong>List audio devices:</strong> <code>ffmpeg -loglevel warning -sources alsa</code></p>
 <ul>
-<li>List audio devices: <code>ffmpeg -loglevel warning -sources alsa</code><ul>
-<li>Look for: <code>Hardware device with all software conversions</code></li>
-</ul>
-</li>
-<li>List video devices: <code>v4l2-ctl --list-devices --all</code></li>
-</ul>
-<p><strong>Audio capture</strong> devices and their capabilities can be listed using:</p>
-<p>.. code-block:: sh</p>
-<pre><code>ffmpeg -loglevel warning -sources alsa
-</code></pre>
+<li>
 <p>Sample Output:</p>
-<p>.. code-block:: sh</p>
 <pre><code>Auto-detected sources for alsa:
 null [Discard all samples (playback) or generate zero samples (capture)]
 hw:CARD=Snowflake,DEV=0 [Direct hardware device without any conversions]
@@ -154,42 +202,335 @@ sysdefault:CARD=Snowflake [Default Audio Device]
 front:CARD=Snowflake,DEV=0 [Front output / input]
 dsnoop:CARD=Snowflake,DEV=0 [Direct sample snooping device]
 </code></pre>
-<p>In the above example, <code>hw:CARD=Snowflake,DEV=0</code> is one valid string that can
-be used for configuration. It is wise to test all available options to determine
-which will yield the most complete result.</p>
-<p><strong>Video capture</strong> devices and their capabilities can be listed using:</p>
-<p>.. code-block:: sh</p>
-<pre><code>v4l2-ctl --list-devices --all
+</li>
+<li>
+<p>Look for devices with: "<u>software conversions</u>"</p>
+</li>
+<li>It is likely worth taking time to test available options.</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="record-audio-options">Record Audio Options</h2>
+<blockquote>
+<p>Additional ffmpeg options used for audio capture.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>[ "-f", "alsa" ]</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list</td>
+<td>audio_options</td>
+<td>RECORD_AUDIO_OPTIONS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-video-device">Record Video Device</h2>
+<blockquote>
+<p>The device identifier used to record video.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>"/dev/video0"</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>video_device</td>
+<td>RECORD_VIDEO_DEVICE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>
+<p><strong>List video devices:</strong> <code>ls -1 /dev/video*</code></p>
+<ul>
+<li>Sample Output:<pre><code>/dev/video0
+/dev/video1
+/dev/video2
+/dev/video3
 </code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>List capabilities:</strong> <code>ffmpeg -hide_banner -f v4l2 -list_formats all -i &lt;DEVICE&gt;</code></p>
+<ul>
+<li>
 <p>Sample Output:</p>
-<p>.. code-block:: sh</p>
-<pre><code>Integrated Camera: Integrated C (usb-0000:64:00.4-1):
-        /dev/video0
-        /dev/video1
-        /dev/video2
-        /dev/media0
-        /dev/media1
-
-Lenovo 500 RGB Camera: Lenovo 5 (usb-0000:01:00.0-1.2):
-        /dev/video3
-        /dev/video4
-        /dev/media2
-
-[...]
-
-Format Video Capture:
-        Width/Height      : 1920/1080
-        Pixel Format      : 'MJPG' (Motion-JPEG)
-        [...]
-Streaming Parameters Video Capture:
-        Capabilities     : timeperframe
-        Frames per second: 5.000 (5/1)
-
-[...]
+<pre><code>[v4l2 @ 0x5612] Compressed:       mjpeg: Motion-JPEG : 640x360 640x480 960x540 1024x576 1280x720 1920x1080 2560x1440 3840x2160
+[v4l2 @ 0x5612] Compressed:        h264:       H.264 : 640x360 640x480 960x540 1024x576 1280x720 1920x1080 2560x1440 3840x2160
+[v4l2 @ 0x5612] Compressed: Unsupported:        HEVC : 640x360 640x480 960x540 1024x576 1280x720 1920x1080 2560x1440 3840x2160
+[v4l2 @ 0x5612] Raw       :     yuyv422:  YUYV 4:2:2 : 640x360 640x480 960x540 1024x576 1280x720 1920x1080
+[in#0 @ 0x5612] Error opening input: Immediate exit requested
+Error opening input file /dev/video2.
 </code></pre>
-<p>This sample output provided shows a webcam that can record at a maximum
-resolution of 1920x1080 at a framerate of 5. Note that only "video" devices
-should be used as a video capture device.</p>
+</li>
+<li>
+<p>This output shows a camera capable of recording 4K video.</p>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h2 id="record-video-options">Record Video Options</h2>
+<blockquote>
+<p>Additional ffmpeg options used for video capture.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>[ "-f", "v4l2", "-framerate", "15" ]</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list</td>
+<td>video_options</td>
+<td>RECORD_VIDEO_OPTIONS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-video-timestamp">Record Video Timestamp</h2>
+<blockquote>
+<p>Long string that defines the datestamp that is added on top of recorded video.</p>
+<p>The default value uses <code>Monospace Bold</code>, set to a bright <code>Red, 48-Point</code> font.
+This font is provided by the <code>fonts-freefont-ttf</code> package,</p>
+<p>This filter is applied to every frame, so it is possible to add <code>hflip,vflip,</code>
+to the start of the string, which will result in an image that is flipped both
+horizontally and vertically--perfect for an upside-down camera.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>"drawtext=fontfile=/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf:text=%{localtime}:fontcolor=red@0.9:x=7:y=7:fontsize=48"</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>video_timestamp</td>
+<td>RECORD_VIDEO_TIMESTAMP</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-video-advanced">Record Video Advanced</h2>
+<blockquote>
+<p>Video creation arguments that ultimately control the final recorded video quality.</p>
+<p>A sensible range for 1080p video is between <code>3M</code> and <code>8M</code>, with <code>3.5M</code> being the
+observed upper limit on a Raspberry Pi 5--due to lack of hardware <strong>en</strong>coder.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>[ "libx264", "-crf", "23", "-preset", "fast", "-tune", "zerolatency", "-maxrate", "3M", "-bufsize", "24M" ]</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list</td>
+<td>video_advanced</td>
+<td>RECORD_VIDEO_ADVANCED</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-inspect-models">Record Inspect Models</h2>
+<blockquote>
+<p>List of tags used for training, and trained models used for automatic detection.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>[ ]</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>list</td>
+<td>inspect_models</td>
+<td>RECORD_INSPECT_MODELS</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-inspect-backlog">Record Inspect Backlog</h2>
+<blockquote>
+<p>Defines the maximum number of "segments" that can back up in each queue
+before newly recorded audio is discarded from queue.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>5</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>inspect_backlog</td>
+<td>RECORD_INSPECT_BACKLOG</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="record-duration">Record Duration</h2>
+<blockquote>
+<p>Length of time to use for each recording.</p>
+<ul>
+<li>Very short recordings will suffer inadequate compression and are harder to review.</li>
+<li>Very long recordings will be much larger and more difficult to submit.</li>
+</ul>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>"00:10:00"</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>record_duration</td>
+<td>RECORD_DURATION</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="train-target">Train Target</h2>
+<blockquote>
+<p>Success rate of model (as percent correct) required before training is
+considered a success.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>0.95</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>train_target</td>
+<td>TRAIN_TARGET</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="train-rate">Train Rate</h2>
+<blockquote>
+<p>One of the "big three" macro adjustments in machine learning.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>0.001</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>train_rate</td>
+<td>TRAIN_RATE</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="train-momentum">Train Momentum</h2>
+<blockquote>
+<p>One of the "big three" macro adjustments in machine learning.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>0.9</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>train_momentum</td>
+<td>TRAIN_MOMENTUM</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
+<h2 id="train-dropout">Train Dropout</h2>
+<blockquote>
+<p>One of the "big three" macro adjustments in machine learning.</p>
+<div class="admonition option">
+<p class="admonition-title">Default Value: <code>0.2</code></p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Configuration Variable</th>
+<th>Environment Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>train_dropout</td>
+<td>TRAIN_DROPOUT</td>
+</tr>
+</tbody>
+</table>
+</div>
+</blockquote>
               
             </div>
           </div><footer>
