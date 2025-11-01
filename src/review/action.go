@@ -10,7 +10,7 @@ import (
 
 	// Standard
 	"fmt"
-	"image/png"
+	"image/jpeg"
 	"io"
 	"os"
 	"strconv"
@@ -104,13 +104,13 @@ func open_video(uri fyne.URIReadCloser, err error) {
 	// Load images and wav clips into movie data
 	for i := 0; i < len(mkvData); i++ {
 		// Image
-		imagePath := fmt.Sprintf("%s/%d.png", extractDir, i)
+		imagePath := fmt.Sprintf("%s/%d.jpg", extractDir, i)
 		log.Trace("Loading image: %s", imagePath)
 		fh, err := os.Open(imagePath)
 		if err != nil {
 			log.Die("Open Error: %s", err)
 		}
-		mkvData[i].image, err = png.Decode(fh)
+		mkvData[i].image, err = jpeg.Decode(fh)
 		if err != nil {
 			log.Die("Decode Error: %s", err)
 		}

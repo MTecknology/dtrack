@@ -77,7 +77,7 @@ func Extract_Arguments(infile string, outdir string) []string {
 		// output-wav
 		"-f", "segment", "-segment_time", "1", "-reset_timestamps", "1", outdir + "/%d.wav",
 		// output-images
-		"-map", "0:v:0", "-vf", "fps=1", "-start_number", "0", outdir + "/%d.png"}
+		"-map", "0:v:0", "-vf", "fps=1,scale=1536:864", "-start_number", "0", outdir + "/%d.jpg"}
 }
 
 // Return list of arguments for ffmpeg that:
